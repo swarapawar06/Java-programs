@@ -1,0 +1,102 @@
+import java.util.InputMismatchException; 
+import java.util.Scanner; 
+class ATMSimulator { 
+double balance; 
+// Constructor 
+ATMSimulator() { 
+balance = 500.0;  // Initial balance 
+} 
+    // Check Balance 
+    void checkBalance() { 
+        System.out.println("Current Balance: ₹" + balance); 
+    } 
+ 
+    // Deposit money 
+    void deposit(double amount) { 
+        try { 
+            if (amount <= 0) { 
+                throw new IllegalArgumentException("Amount 
+must be positive."); 
+            } 
+            balance += amount; 
+            System.out.println("₹" + amount + " deposited 
+successfully."); 
+        } catch (IllegalArgumentException e) { 
+            System.out.println("Error: " + e.getMessage()); 
+        } finally { 
+            System.out.println("Deposit operation completed."); 
+        } 
+    } 
+ 
+    // Withdraw money 
+    void withdraw(double amount) { 
+        try { 
+            if (amount <= 0) { 
+                throw new IllegalArgumentException("Amount 
+must be positive."); 
+            } 
+            if (amount > balance) { 
+                throw new ArithmeticException("Insufficient 
+funds."); 
+            } 
+            balance -= amount; 
+            System.out.println("₹" + amount + " withdrawn 
+successfully."); 
+        } catch (IllegalArgumentException | 
+ArithmeticException e) { 
+            System.out.println("Error: " + e.getMessage()); 
+        } finally { 
+            System.out.println("Withdraw operation 
+completed."); 
+        } 
+    } 
+ 
+    public static void main(String[] args) { 
+        Scanner sc = new Scanner(System.in); 
+        ATMSimulator atm = new ATMSimulator(); 
+        int choice = 0; 
+ 
+        do { 
+            System.out.println("\n--- ATM Menu ---"); 
+            System.out.println("1. Check Balance"); 
+            System.out.println("2. Deposit Money"); 
+            System.out.println("3. Withdraw Money"); 
+            System.out.println("4. Exit"); 
+            System.out.print("Enter your choice: "); 
+ 
+            try { 
+                choice = sc.nextInt(); 
+ 
+                switch (choice) { 
+                    case 1: 
+                        atm.checkBalance(); 
+                        break; 
+                    case 2: 
+                        System.out.print("Enter amount to deposit: ₹"); 
+                        double dep = sc.nextDouble(); 
+                        atm.deposit(dep); 
+                        break; 
+                    case 3: 
+                        System.out.print("Enter amount to withdraw: 
+₹"); 
+                        double wd = sc.nextDouble(); 
+                        atm.withdraw(wd); 
+                        break; 
+                    case 4: 
+                        System.out.println("Thank you for using the 
+ATM."); 
+                        break; 
+                    default: 
+                        System.out.println("Invalid choice."); 
+                } 
+ 
+            } catch (InputMismatchException e) { 
+                System.out.println("Invalid input. Please enter 
+numbers only."); 
+                sc.nextLine(); // Clear the invalid input 
+            } 
+ 
+} while (choice != 4); 
+sc.close(); 
+} 
+}
